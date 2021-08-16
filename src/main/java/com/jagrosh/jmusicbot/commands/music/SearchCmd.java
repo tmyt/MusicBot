@@ -96,6 +96,9 @@ public class SearchCmd extends MusicCommand
             m.editMessage(FormatUtil.filter(event.getClient().getSuccess()+" Added **"+track.getInfo().title
                     +"** (`"+FormatUtil.formatTime(track.getDuration())+"`) "+(pos==0 ? "to begin playing" 
                         : " to the queue at position "+pos))).queue();
+
+            // skip if default queue playing
+            handler.stopDefaultTrack();
         }
 
         @Override
@@ -128,6 +131,10 @@ public class SearchCmd extends MusicCommand
                 builder.addChoices("`["+FormatUtil.formatTime(track.getDuration())+"]` [**"+track.getInfo().title+"**]("+track.getInfo().uri+")");
             }
             builder.build().display(m);
+
+            // skip if default queue playing
+            AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+            handler.stopDefaultTrack();
         }
 
         @Override

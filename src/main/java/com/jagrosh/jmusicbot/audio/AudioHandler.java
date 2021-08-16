@@ -52,6 +52,8 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     private final PlayerManager manager;
     private final AudioPlayer audioPlayer;
     private final long guildId;
+
+    private boolean playingDefaultQueue;
     
     private AudioFrame lastFrame;
 
@@ -71,6 +73,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         }
         else
         {
+            defaultQueue.clear();
             queue.addAt(0, qtrack);
             return 0;
         }
@@ -82,9 +85,10 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         {
             audioPlayer.playTrack(qtrack.getTrack());
             return -1;
-        }
-        else
+        } else {
+            defaultQueue.clear();
             return queue.add(qtrack);
+        }
     }
     
     public FairQueue<QueuedTrack> getQueue()
@@ -98,6 +102,12 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         defaultQueue.clear();
         audioPlayer.stopTrack();
         //current = null;
+    }
+
+    public void stopDefaultTrack(){
+        if(playingDefaultQueue){
+            audioPlayer.stopTrack();
+        }
     }
     
     public boolean isMusicPlaying(JDA jda)
@@ -127,15 +137,15 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         if(!defaultQueue.isEmpty())
         {
             audioPlayer.playTrack(defaultQueue.remove(0));
-            return true;
+            return playingDefaultQueue = true;
         }
         Settings settings = manager.getBot().getSettingsManager().getSettings(guildId);
         if(settings==null || settings.getDefaultPlaylist()==null)
-            return false;
+            return playingDefaultQueue = false;
         
         Playlist pl = manager.getBot().getPlaylistLoader().getPlaylist(settings.getDefaultPlaylist());
         if(pl==null || pl.getItems().isEmpty())
-            return false;
+            return playingDefaultQueue = false;
         pl.loadTracks(manager, (at) -> 
         {
             if(audioPlayer.getPlayingTrack()==null)
@@ -147,7 +157,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             if(pl.getTracks().isEmpty() && !manager.getBot().getConfig().getStay())
                 manager.getBot().closeAudioConnection(guildId);
         });
-        return true;
+        return playingDefaultQueue = true;
     }
     
     // Audio Events
@@ -174,6 +184,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         }
         else
         {
+            playingDefaultQueue = false;
             QueuedTrack qt = queue.pull();
             player.playTrack(qt.getTrack());
         }
@@ -186,7 +197,6 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         manager.getBot().getNowplayingHandler().onTrackUpdate(guildId, track, this);
     }
 
-    
     // Formatting
     public Message getNowPlaying(JDA jda)
     {
@@ -263,7 +273,11 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         }
         else return "No music playing " + JMusicBot.STOP_EMOJI + " " + FormatUtil.volumeIcon(audioPlayer.getVolume());
     }
-    
+
+    public boolean isPlayingDefaultQueue(){
+        return playingDefaultQueue;
+    }
+
     // Audio Send Handler methods
     /*@Override
     public boolean canProvide() 

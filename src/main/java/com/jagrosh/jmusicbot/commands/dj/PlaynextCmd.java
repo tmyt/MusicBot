@@ -93,6 +93,10 @@ public class PlaynextCmd extends DJCommand
         public void trackLoaded(AudioTrack track)
         {
             loadSingle(track);
+
+            // skip if default queue playing
+            AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+            handler.stopDefaultTrack();
         }
 
         @Override
@@ -106,6 +110,10 @@ public class PlaynextCmd extends DJCommand
             else
                 single = playlist.getTracks().get(0);
             loadSingle(single);
+
+            // skip if default queue playing
+            AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+            handler.stopDefaultTrack();
         }
 
         @Override

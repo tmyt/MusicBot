@@ -34,6 +34,8 @@ import java.util.concurrent.TimeUnit;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.exceptions.PermissionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -155,6 +157,10 @@ public class PlayCmd extends MusicCommand
         public void trackLoaded(AudioTrack track)
         {
             loadSingle(track, null);
+
+            // skip if default queue playing
+            AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+            handler.stopDefaultTrack();
         }
 
         @Override
@@ -187,6 +193,10 @@ public class PlayCmd extends MusicCommand
                             + bot.getConfig().getMaxTime()+"`) have been omitted." : ""))).queue();
                 }
             }
+
+            // skip if default queue playing
+            AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+            handler.stopDefaultTrack();
         }
 
         @Override
