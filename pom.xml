@@ -28,12 +28,12 @@
         <dependency>
             <groupId>net.dv8tion</groupId> 
             <artifactId>JDA</artifactId> 
-            <version>4.2.1_253</version>
+            <version>4.3.0_309</version>
         </dependency>
         <dependency>
             <groupId>com.sedmelluq</groupId>
             <artifactId>lavaplayer</artifactId>
-            <version>1.3.75</version>
+            <version>1.3.78</version>
         </dependency>
         <dependency>
             <groupId>com.sedmelluq</groupId>
