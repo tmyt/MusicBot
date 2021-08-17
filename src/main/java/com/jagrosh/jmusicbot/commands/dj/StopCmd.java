@@ -39,8 +39,15 @@ public class StopCmd extends DJCommand
     public void doCommand(CommandEvent event) 
     {
         AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+        // if playing default queue, do nothing
+        if (handler.isPlayingDefaultQueue()) {
+            return;
+        }
         handler.stopAndClear();
-        event.getGuild().getAudioManager().closeAudioConnection();
-        event.reply(event.getClient().getSuccess()+" The player has stopped and the queue has been cleared.");
+        // disconnect VC if no default queue available.
+        if(!handler.playFromDefault()){
+            event.getGuild().getAudioManager().closeAudioConnection();
+            event.reply(event.getClient().getSuccess()+" The player has stopped and the queue has been cleared.");
+        }
     }
 }
