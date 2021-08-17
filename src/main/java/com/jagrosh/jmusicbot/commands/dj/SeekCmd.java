@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.audio.AudioHandler;
 import com.jagrosh.jmusicbot.commands.DJCommand;
+import com.jagrosh.jmusicbot.utils.FormatUtil;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,19 +85,19 @@ public class SeekCmd  extends DJCommand
             return;
         }
         long position = (h * 3600 + m * 60 + s) * 1000;
+        long current = track.getPosition();
         if(isRelative){
-            long current = track.getPosition();
             if(seekForward){
                 current += position;
             }else{
                 current -= position;
             }
             current = Math.min(Math.max(0, current), track.getDuration());
-            track.setPosition(current);
         }else{
-            long current = Math.min(Math.max(0, position), track.getDuration());
-            track.setPosition(current);
+            current = Math.min(Math.max(0, position), track.getDuration());
         }
+        track.setPosition(current);
+        event.reply(event.getClient().getSuccess()+" Seeked to `"+FormatUtil.formatTime(track.getDuration())+"`");
     }
 
     private boolean isStarsWithNumber(String s){
