@@ -97,7 +97,7 @@ public class SeekCmd  extends DJCommand
             current = Math.min(Math.max(0, position), track.getDuration());
         }
         track.setPosition(current);
-        event.reply(event.getClient().getSuccess()+" Seeked to `"+FormatUtil.formatTime(track.getDuration())+"`");
+        event.reply(event.getClient().getSuccess()+" Seeked to `"+FormatUtil.formatTime(current)+"`");
     }
 
     private boolean isStarsWithNumber(String s){
