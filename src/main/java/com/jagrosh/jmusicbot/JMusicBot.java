@@ -125,6 +125,7 @@ public class JMusicBot
                         
                         new PrefixCmd(bot),
                         new SetdjCmd(bot),
+                        new SkipratioCmd(bot),
                         new SettcCmd(bot),
                         new SetvcCmd(bot),
                         
