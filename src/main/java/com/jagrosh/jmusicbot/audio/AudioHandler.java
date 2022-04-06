@@ -40,6 +40,10 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author John Grosh <john.a.grosh@gmail.com>
@@ -307,6 +311,12 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
 
         return data;
     }*/
+
+    @Override
+    public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
+        Logger log = LoggerFactory.getLogger("Audio");
+        log.error(exception.toString());
+    }
     
     @Override
     public boolean canProvide() 
