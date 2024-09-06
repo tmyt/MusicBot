@@ -320,11 +320,6 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         return data;
     }*/
 
-    @Override
-    public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
-        Logger log = LoggerFactory.getLogger("Audio");
-        log.error(exception.toString());
-    }
     
     @Override
     public boolean canProvide() 

@@ -35,6 +35,12 @@
             <name>Lavalink Repository</name>
             <url>https://maven.lavalink.dev/releases</url>
         </repository>
+        <!-- Chew's Maven Repo for JDA-Chewtils -->
+        <repository>
+            <id>chew</id>
+            <name>m2-chew</name>
+            <url>https://m2.chew.pro/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -45,9 +51,9 @@
             <version>4.4.1_353</version>
         </dependency>
         <dependency>
-            <groupId>com.jagrosh</groupId>
-            <artifactId>jda-utilities</artifactId>
-            <version>3.0.5</version>
+            <groupId>pw.chew</groupId>
+            <artifactId>jda-chewtils</artifactId>
+            <version>1.24.1</version>
             <type>pom</type>
         </dependency>
 
@@ -60,7 +66,7 @@
         <dependency>
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>common</artifactId>
-            <version>1.5.1</version>
+            <version>1.5.2</version>
         </dependency>
 	<dependency>
 	    <groupId>com.github.jagrosh</groupId>
