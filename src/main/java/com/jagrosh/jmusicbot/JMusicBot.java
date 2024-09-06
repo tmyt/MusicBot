@@ -214,8 +214,7 @@ public class JMusicBot
                         new StopCmd(bot),
                         new VolumeCmd(bot),
                         new DisconnectCmd(bot),
-                        new SeekCmd(bot),
-                        
+
                         new PrefixCmd(bot),
                         new QueueTypeCmd(bot),
                         new SetdjCmd(bot),
